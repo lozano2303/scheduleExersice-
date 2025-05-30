@@ -49,6 +49,12 @@ public class scheduleDoseReminderService {
                 }
             }
 
+            // Verificar status actualizado por posible condición de carrera
+            Optional<scheduleDose> refreshedDoseOpt = scheduleDoseRepository.findById(dose.getDoseID());
+            if (refreshedDoseOpt.isPresent() && refreshedDoseOpt.get().getConfirmationStatus() != 0) {
+                continue;
+            }
+
             // Si no se ha cumplido el tiempo límite, se puede enviar el siguiente recordatorio
             patient patient = dose.getpatient();
             String email = patient.getEmail();
@@ -80,6 +86,14 @@ public class scheduleDoseReminderService {
             int freqHours = dose.getmedication().getFrequencyHours();
             LocalDateTime nextDoseTime = lastConfirmation.plusMinutes(freqHours);
 
+            // EVITAR DUPLICADOS: solo crea si NO existe una dosis igual pendiente
+            boolean exists = scheduleDoseRepository.existsByPatientAndMedicationAndStartDateAndConfirmationStatus(
+                dose.getpatient(), dose.getmedication(), nextDoseTime, 0
+            );
+            if (exists) {
+                continue;
+            }
+
             if (!LocalDateTime.now().isBefore(nextDoseTime)) {
                 // Crear la nueva dosis pendiente para el paciente y medicamento
                 scheduleDose newDose = new scheduleDose();
@@ -93,8 +107,6 @@ public class scheduleDoseReminderService {
                 System.out.println("Nueva dosis creada para paciente " + newDose.getpatient().getPatientID() +
                     " y medicamento " + newDose.getmedication().getName() +
                     " con fecha " + nextDoseTime);
-
-                // Opcional: puedes marcar la dosis anterior como "finalizada" con otro status si quieres.
             }
         }
     }

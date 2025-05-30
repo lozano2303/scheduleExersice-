@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Dosis Programadas</title>
+  <link rel="stylesheet" href="style/style.css">
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav id="main-navbar">
+    <ul>
+      <li><a href="index.html"">Historial</a></li>
+      <li><a href="patients.html">Pacientes</a></li>
+      <li><a href="medication.html">Medicamentos</a></li>
+      <li><a href="scheduleDose.html" class="active">Dosis Programadas</a></li>
+    </ul>
+  </nav>
+
+  <section id="scheduledoses-section" class="crud-section">
+    <h2>Dosis Programadas</h2>
+    <form id="scheduledose-form" class="crud-form">
+      <input type="hidden" id="dose-id">
+      <select id="dose-patient" required></select>
+      <select id="dose-medication" required></select>
+      <input type="number" id="dose-duration" placeholder="Duración (días)" min="1" required>
+      <select id="dose-status" required>
+        <option value="0">Pendiente</option>
+        <option value="1">Confirmada</option>
+        <option value="2">No tomada</option>
+      </select>
+      <button type="submit" id="dose-save-btn">Agregar dosis</button>
+      <button type="button" id="dose-cancel-btn" class="hidden">Cancelar</button>
+    </form>
+    <div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Paciente</th>
+        <th>Medicamento</th>
+        <th>Fecha/Hora inicio</th>
+        <th>Duración (días)</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="scheduledoses-table"></tbody>
+  </table>
+</div>
+  </section>
+  <script src="js/scheduleDose.js"></script>
+</body>
+</html>

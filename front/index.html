@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Historial de Recordatorios</title>
+  <link rel="stylesheet" href="style/style.css">
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav id="main-navbar">
+    <ul>
+      <li><a href="index.html" class="active">Historial</a></li>
+      <li><a href="patients.html">Pacientes</a></li>
+      <li><a href="medication.html">Medicamentos</a></li>
+      <li><a href="scheduleDose.html">Dosis Programadas</a></li>
+    </ul>
+  </nav>
+
+  <div class="content">
+    <h2>Historial de Recordatorios</h2>
+    <div class="patient-search-wrapper">
+  <label for="search-patient">Buscar paciente por nombre:</label>
+  <input type="text" id="search-patient" placeholder="Nombre paciente...">
+  <ul id="patient-list"></ul>
+</div>
+
+
+    <h3 id="historial-title" style="display:none">Historial de recordatorios</h3>
+    <table id="reminders-table" style="display:none">
+      <thead>
+        <tr>
+          <th>Hora del recordatorio</th>
+          <th>¿Tomado?</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <script src="js/index_reminders.js"></script>
+</body>
+</html>

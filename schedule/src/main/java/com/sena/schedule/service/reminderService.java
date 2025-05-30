@@ -103,6 +103,11 @@ public class reminderService {
         return dto.getDoseID() != null && dto.getSendAt() != null && dto.getStatus() != null;
     }
 
+    // En reminderService.java
+public List<reminder> findByPatientId(Integer patientId) {
+    return data.findByDoseID_Patient_PatientID(patientId);
+}
+
     public reminder convertToModel(reminderDTO dto, scheduleDose dose) {
         reminder r = new reminder();
         r.setDoseID(dose);

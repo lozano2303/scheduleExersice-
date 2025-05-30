@@ -12,4 +12,5 @@ public interface Ireminder extends JpaRepository<reminder, Integer> {
 
     // Nuevo método para encontrar el primer reminder (más antiguo) de una dosis
     Optional<reminder> findFirstByDoseID_DoseIDOrderBySendAtAsc(Integer doseId);
+    List<reminder> findByDoseID_Patient_PatientID(Integer patientId);
 }

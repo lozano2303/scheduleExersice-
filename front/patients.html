@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Pacientes</title>
+  <link rel="stylesheet" href="style/style.css">
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav id="main-navbar">
+    <ul>
+      <li><a href="index.html"">Historial</a></li>
+      <li><a href="patients.html" class="active">Pacientes</a></li>
+      <li><a href="medication.html">Medicamentos</a></li>
+      <li><a href="scheduleDose.html">Dosis Programadas</a></li>
+    </ul>
+  </nav>
+
+  <!-- CRUD Pacientes -->
+  <section id="patients-section" class="crud-section">
+    <h2>Pacientes</h2>
+    <form id="patient-form" class="crud-form">
+      <input type="hidden" id="patient-id">
+      <input type="text" id="patient-name" placeholder="Nombre" required>
+      <input type="email" id="patient-email" placeholder="Email" required>
+      <label style="display:inline-block;margin:0.5em 0;">
+        <input type="checkbox" id="patient-notifications"> Permitir notificaciones
+      </label>
+      <button type="submit" id="patient-save-btn">Agregar paciente</button>
+      <button type="button" id="patient-cancel-btn" class="hidden">Cancelar</button>
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Permite Notificaciones</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="patients-table"></tbody>
+    </table>
+  </section>
+  <script src="js/patients.js"></script>
+</body>
+</html>

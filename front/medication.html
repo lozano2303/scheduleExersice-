@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Medicamentos</title>
+  <link rel="stylesheet" href="style/style.css">
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav id="main-navbar">
+    <ul>
+      <li><a href="index.html">Historial</a></li>
+      <li><a href="patients.html">Pacientes</a></li>
+      <li><a href="medication.html" class="active">Medicamentos</a></li>
+      <li><a href="scheduleDose.html">Dosis Programadas</a></li>
+    </ul>
+  </nav>
+
+  <!-- CRUD Medicamentos -->
+  <section id="medications-section" class="crud-section">
+    <h2>Medicamentos</h2>
+    <form id="medication-form" class="crud-form">
+      <input type="hidden" id="medication-id">
+      <input type="text" id="medication-name" placeholder="Nombre" required>
+      <input type="text" id="medication-dosage" placeholder="Dosis (ej: 500mg)" required>
+      <input type="number" id="medication-frequency" placeholder="Frecuencia (horas)" min="1" required>
+      <button type="submit" id="medication-save-btn">Agregar medicamento</button>
+      <button type="button" id="medication-cancel-btn" class="hidden">Cancelar</button>
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Dosis</th>
+          <th>Frecuencia (horas)</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="medications-table"></tbody>
+    </table>
+  </section>
+  <script src="js/medication.js"></script>
+</body>
+</html>
