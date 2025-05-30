@@ -58,4 +58,44 @@ public class scheduleDoseReminderService {
             }
         }
     }
+
+    // Ejecuta cada minuto para verificar si es momento de crear una nueva dosis
+    @Scheduled(cron = "0 * * * * *")
+    public void createNextDoseIfNeeded() {
+        List<scheduleDose> confirmedDoses = scheduleDoseRepository.findByConfirmationStatus(1); // 1 = confirmada
+
+        for (scheduleDose dose : confirmedDoses) {
+            // Buscar los reminders de esta dosis
+            List<reminder> reminders = reminderRepository.findByDoseID_DoseID(dose.getDoseID());
+            // Buscar el último reminder CONFIRMADO (status == true)
+            reminder lastConfirmedReminder = reminders.stream()
+                .filter(r -> Boolean.TRUE.equals(r.getStatus()))
+                .sorted((a, b) -> b.getSendAt().compareTo(a.getSendAt())) // descendente por fecha
+                .findFirst()
+                .orElse(null);
+
+            if (lastConfirmedReminder == null) continue; // Solo para dosis que sí han sido confirmadas
+
+            LocalDateTime lastConfirmation = lastConfirmedReminder.getSendAt();
+            int freqHours = dose.getmedication().getFrequencyHours();
+            LocalDateTime nextDoseTime = lastConfirmation.plusMinutes(freqHours);
+
+            if (!LocalDateTime.now().isBefore(nextDoseTime)) {
+                // Crear la nueva dosis pendiente para el paciente y medicamento
+                scheduleDose newDose = new scheduleDose();
+                newDose.setmedication(dose.getmedication());
+                newDose.setpatient(dose.getpatient());
+                newDose.setStartDate(nextDoseTime);
+                newDose.setConfirmationStatus(0); // pendiente
+                newDose.setDurationDays(dose.getDurationDays()); // copia duración
+
+                scheduleDoseRepository.save(newDose);
+                System.out.println("Nueva dosis creada para paciente " + newDose.getpatient().getPatientID() +
+                    " y medicamento " + newDose.getmedication().getName() +
+                    " con fecha " + nextDoseTime);
+
+                // Opcional: puedes marcar la dosis anterior como "finalizada" con otro status si quieres.
+            }
+        }
+    }
 }
